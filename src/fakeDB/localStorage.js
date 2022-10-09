@@ -31,4 +31,8 @@ const removeFromLs = (id) => {
   }
 };
 
-export { setStorage, getStorage, removeFromLs };
+const deleteStorageData = () => {
+  localStorage.removeItem("shopping-cart");
+};
+
+export { setStorage, getStorage, removeFromLs, deleteStorageData };

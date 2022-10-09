@@ -1,4 +1,6 @@
 import React, { useContext } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { setStorage } from "../fakeDB/localStorage";
 import Product from "./Product";
 import { CartContext, ProductsContext } from "./Root/Root";
@@ -20,6 +22,8 @@ const Shop = () => {
     }
     setCart(newCart);
     setStorage(product.id);
+
+    toast.success("Added Cart!!", { autoClose: 500 });
   };
 
   return (

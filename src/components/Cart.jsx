@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { removeFromLs } from "../fakeDB/localStorage";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { deleteStorageData, removeFromLs } from "../fakeDB/localStorage";
 import CartItem from "./CartItem";
 import { CartContext } from "./Root/Root";
 
@@ -12,10 +14,24 @@ const Cart = () => {
     total += product.price * product.quantity;
   }
 
+  cart.sort((a, b) => b.quantity - a.quantity);
+
   const handleRemoveItem = (id) => {
-    const remaining = cart.filter((product) => product.id !== id);
-    setCart(remaining);
-    removeFromLs(id);
+    toast.error("Remove From Cart!", { autoClose: 500 });
+    setTimeout(() => {
+      const remaining = cart.filter((product) => product.id !== id);
+      setCart(remaining);
+      removeFromLs(id);
+    }, 1000);
+  };
+
+  const handleOrderComplete = () => {
+    if (cart.length) {
+      setCart([]);
+      deleteStorageData();
+      return toast.warning("Placed Complete!", { autoClose: 500 });
+    }
+    return toast.info("Please Add to Cart", { autoClose: 500 });
   };
 
   return (
@@ -45,7 +61,7 @@ const Cart = () => {
           </p>
         </div>
         <div className="flex justify-center space-x-4">
-          <Link to="/">
+          <Link to="/shop">
             <button
               type="button"
               className="px-6 py-2 border rounded-md dark:border-violet-400 hover:dark:bg-violet-400 transition duration-300 hover:dark:text-gray-100"
@@ -55,6 +71,7 @@ const Cart = () => {
             </button>
           </Link>
           <button
+            onClick={handleOrderComplete}
             type="button"
             className="px-6 py-2 border rounded-md dark:bg-violet-400 dark:text-gray-100 dark:border-violet-400"
           >
