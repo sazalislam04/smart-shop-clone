@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-const CartItem = ({ product }) => {
+const CartItem = ({ product, handleRemoveItem }) => {
   const [color, setColor] = useState(false);
-  const { name, quantity, price, picture } = product;
+  const { name, quantity, price, picture, id } = product;
   const theme = () => {
     setColor(!color);
   };
@@ -30,8 +30,9 @@ const CartItem = ({ product }) => {
           </div>
           <div className="flex text-sm divide-x">
             <button
+              onClick={() => handleRemoveItem(id)}
               type="button"
-              className="flex items-center px-2 py-1 pl-0 space-x-1"
+              className="flex items-center px-2 py-1 pl-0 space-x-1 hover:dark:text-red-500"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
